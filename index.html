@@ -42,7 +42,8 @@
         <p class="game-subtitle">Clash of Superpowers</p>
       </div>
       <div class="menu-buttons">
-        <button class="btn-primary" id="btn-new-game">New Adventure</button>
+        <button class="btn-primary" id="btn-new-campaign">Campaign Mode (AI)</button>
+        <button class="btn-primary" id="btn-new-pvp" style="border-color: var(--neon-purple); box-shadow: var(--shadow-purple); background: linear-gradient(135deg, rgba(189,0,255,0.2), rgba(0,229,255,0.2))">Local Duel (1v1 PvP)</button>
         <button class="btn-secondary" id="btn-continue" disabled>Continue Progress</button>
       </div>
     </div>
@@ -50,8 +51,8 @@
     <!-- ================= SCREEN 2: CHARACTER SELECT ================= -->
     <div id="screen-select" class="screen selection-screen hidden">
       <div class="screen-header">
-        <h2>Choose Your Champion</h2>
-        <p>Unlock their potential, master their unique powers</p>
+        <h2 id="select-screen-title">Choose Your Champion</h2>
+        <p id="select-screen-subtitle">Unlock their potential, master their unique powers</p>
       </div>
       
       <div class="character-grid" id="char-selection-grid">
@@ -257,63 +258,85 @@
 
         <div class="lobby-divider"></div>
 
-        <!-- Potions Inventory -->
-        <div class="potion-area">
-          <div class="potion-count">
-            <span class="potion-icon">🧪</span>
-            <span>Health Potions: <strong id="lobby-potions-count">1</strong></span>
+        <!-- Potions & Credits Inventory -->
+        <div class="potion-area" style="flex-direction: column; align-items: stretch; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="potion-count">
+              <span class="potion-icon">🧪</span>
+              <span>Health Potions: <strong id="lobby-potions-count">1</strong></span>
+            </div>
+            <button class="btn-use-potion" id="btn-lobby-heal">Heal Hero</button>
           </div>
-          <button class="btn-use-potion" id="btn-lobby-heal">Heal Hero</button>
+          <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div class="potion-count">
+              <span style="color: var(--neon-yellow); filter: drop-shadow(0 0 4px var(--neon-yellow)); font-size: 1.1rem; margin-right: 5px;">💎</span>
+              <span>Nano-Credits:</span>
+            </div>
+            <span id="lobby-credits-count" style="font-family: var(--font-header); color: var(--neon-yellow); font-weight: bold; font-size: 1.1rem; text-shadow: 0 0 6px rgba(255,234,0,0.5)">0</span>
+          </div>
         </div>
       </div>
 
-      <!-- Right side: Map & Mission Launch -->
-      <div class="lobby-main">
+      <!-- Right side: Map / Shop & Mission Launch -->
+      <div class="lobby-main" style="justify-content: flex-start; gap: 15px;">
         <div class="lobby-header">
-          <h2>Nexus Campaign</h2>
+          <div style="display: flex; gap: 12px;">
+            <button class="lobby-tab-btn active" id="btn-tab-campaign">Campaign Map</button>
+            <button class="lobby-tab-btn" id="btn-tab-shop">Nano-Shop</button>
+          </div>
           <div class="turn-indicator" id="lobby-stage-indicator" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1); color: #fff; text-shadow: none">Stage 1 / 5</div>
         </div>
 
-        <!-- Campaign Nodes (Visual Map) -->
-        <div class="stage-nodes-container">
-          <div class="nodes-path">
-            <div class="nodes-path-progress" id="nodes-progress-line"></div>
+        <!-- Campaign Tab Container -->
+        <div id="lobby-campaign-container" class="lobby-content-container">
+          <!-- Campaign Nodes (Visual Map) -->
+          <div class="stage-nodes-container" style="flex: 1; min-height: 200px;">
+            <div class="nodes-path">
+              <div class="nodes-path-progress" id="nodes-progress-line"></div>
+            </div>
+            
+            <div class="stage-node current" data-stage="1">
+              <span class="node-number">I</span>
+              <span class="node-tooltip">Plasma Drone</span>
+            </div>
+            <div class="stage-node locked" data-stage="2">
+              <span class="node-number">II</span>
+              <span class="node-tooltip">Slime Spitter</span>
+            </div>
+            <div class="stage-node locked" data-stage="3">
+              <span class="node-number">III</span>
+              <span class="node-tooltip">Cyber Hunter</span>
+            </div>
+            <div class="stage-node locked" data-stage="4">
+              <span class="node-number">IV</span>
+              <span class="node-tooltip">Chronos Sentinel</span>
+            </div>
+            <div class="stage-node locked boss-node" data-stage="5">
+              <span class="node-number">💀</span>
+              <span class="node-tooltip">MALAKOR (BOSS)</span>
+            </div>
           </div>
-          
-          <div class="stage-node current" data-stage="1">
-            <span class="node-number">I</span>
-            <span class="node-tooltip">Plasma Drone</span>
-          </div>
-          <div class="stage-node locked" data-stage="2">
-            <span class="node-number">II</span>
-            <span class="node-tooltip">Slime Spitter</span>
-          </div>
-          <div class="stage-node locked" data-stage="3">
-            <span class="node-number">III</span>
-            <span class="node-tooltip">Cyber Hunter</span>
-          </div>
-          <div class="stage-node locked" data-stage="4">
-            <span class="node-number">IV</span>
-            <span class="node-tooltip">Chronos Sentinel</span>
-          </div>
-          <div class="stage-node locked boss-node" data-stage="5">
-            <span class="node-number">💀</span>
-            <span class="node-tooltip">MALAKOR (BOSS)</span>
+
+          <!-- Mission Details Preview -->
+          <div class="mission-preview-panel">
+            <div class="enemy-brief">
+              <div class="enemy-brief-avatar" id="lobby-enemy-avatar-frame">
+                <img src="assets/enemy.jpg" alt="Enemy Preview">
+              </div>
+              <div class="enemy-brief-info">
+                <h5 id="lobby-enemy-name">Plasma Drone</h5>
+                <p id="lobby-enemy-desc">A standard military-grade sentry firing high-frequency plasma bursts.</p>
+              </div>
+            </div>
+            <button class="btn-primary" id="btn-launch-combat">Initiate Clash</button>
           </div>
         </div>
 
-        <!-- Mission Details Preview -->
-        <div class="mission-preview-panel">
-          <div class="enemy-brief">
-            <div class="enemy-brief-avatar" id="lobby-enemy-avatar-frame">
-              <img src="assets/enemy.jpg" alt="Enemy Preview">
-            </div>
-            <div class="enemy-brief-info">
-              <h5 id="lobby-enemy-name">Plasma Drone</h5>
-              <p id="lobby-enemy-desc">A standard military-grade sentry firing high-frequency plasma bursts.</p>
-            </div>
+        <!-- Shop Tab Container -->
+        <div id="lobby-shop-container" class="lobby-content-container hidden" style="flex: 1; justify-content: flex-start; gap: 15px; height: calc(100% - 50px); overflow: hidden;">
+          <div class="shop-grid" id="lobby-shop-grid">
+            <!-- Rendered Dynamically in JS -->
           </div>
-          <button class="btn-primary" id="btn-launch-combat">Initiate Clash</button>
         </div>
       </div>
     </div>
@@ -494,6 +517,10 @@
         <div class="reward-row" id="outcome-reward-points-row">
           <span class="reward-label">Attribute Points Gained</span>
           <span class="reward-val" id="outcome-reward-points">+2 Points</span>
+        </div>
+        <div class="reward-row">
+          <span class="reward-label">Nano-Credits Earned</span>
+          <span class="reward-val" id="outcome-reward-credits">+0 Credits</span>
         </div>
         <div class="reward-row">
           <span class="reward-label">Potions Found</span>
