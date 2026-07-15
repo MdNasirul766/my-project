@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA: Clash of Superpowers | RPG</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Particle Network -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="scanlines"></div>
+
+  <!-- Main Game Panel -->
+  <div id="game-wrapper">
+    
+    <!-- Top HUD / Navigation Bar -->
+    <div class="top-hud">
+      <div class="game-logo-hud">
+        AURA: <span>CLASH OF SUPERPOWERS</span>
+      </div>
+      <div class="hud-actions">
+        <button class="hud-btn" id="btn-sound" title="Toggle Sound">
+          🔊
+        </button>
+        <button class="hud-btn" id="btn-reset" title="Reset Save Data">
+          🔄
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= SCREEN 1: MAIN MENU ================= -->
+    <div id="screen-menu" class="screen menu-screen">
+      <div class="title-container">
+        <h1 class="game-title">AURA</h1>
+        <p class="game-subtitle">Clash of Superpowers</p>
+      </div>
+      <div class="menu-buttons">
+        <button class="btn-primary" id="btn-new-game">New Adventure</button>
+        <button class="btn-secondary" id="btn-continue" disabled>Continue Progress</button>
+      </div>
+    </div>
+
+    <!-- ================= SCREEN 2: CHARACTER SELECT ================= -->
+    <div id="screen-select" class="screen selection-screen hidden">
+      <div class="screen-header">
+        <h2>Choose Your Champion</h2>
+        <p>Unlock their potential, master their unique powers</p>
+      </div>
+      
+      <div class="character-grid" id="char-selection-grid">
+        <!-- Ignis -->
+        <div class="character-card" data-hero-type="ignis" style="--card-glow-color: var(--neon-orange); --card-glow-rgb: 255, 87, 34;">
+          <div class="char-img-container">
+            <span class="char-type-badge">Pyro</span>
+            <img src="assets/ignis.jpg" alt="Ignis Avatar" class="char-img">
+          </div>
+          <div class="char-info">
+            <h3 class="char-name">IGNIS</h3>
+            <span class="char-title">The Solar Flame</span>
+          </div>
+          <div class="char-stats">
+            <div class="stat-row">
+              <span class="stat-label">Power (ATK)</span>
+              <span class="stat-val">9 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 90%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Agility (SPD)</span>
+              <span class="stat-val">6 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 60%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Resilience (DEF)</span>
+              <span class="stat-val">4 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 40%;"></div></div>
+          </div>
+        </div>
+
+        <!-- Tesla -->
+        <div class="character-card" data-hero-type="tesla" style="--card-glow-color: var(--neon-cyan); --card-glow-rgb: 0, 229, 255;">
+          <div class="char-img-container">
+            <span class="char-type-badge">Electro</span>
+            <img src="assets/tesla.jpg" alt="Tesla Avatar" class="char-img">
+          </div>
+          <div class="char-info">
+            <h3 class="char-name">TESLA</h3>
+            <span class="char-title">The Storm Weaver</span>
+          </div>
+          <div class="char-stats">
+            <div class="stat-row">
+              <span class="stat-label">Power (ATK)</span>
+              <span class="stat-val">7 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 70%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Agility (SPD)</span>
+              <span class="stat-val">9 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 90%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Resilience (DEF)</span>
+              <span class="stat-val">5 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 50%;"></div></div>
+          </div>
+        </div>
+
+        <!-- Vortex -->
+        <div class="character-card" data-hero-type="vortex" style="--card-glow-color: var(--neon-purple); --card-glow-rgb: 189, 0, 255;">
+          <div class="char-img-container">
+            <span class="char-type-badge">Void</span>
+            <img src="assets/vortex.jpg" alt="Vortex Avatar" class="char-img">
+          </div>
+          <div class="char-info">
+            <h3 class="char-name">VORTEX</h3>
+            <span class="char-title">The Void Stalker</span>
+          </div>
+          <div class="char-stats">
+            <div class="stat-row">
+              <span class="stat-label">Power (ATK)</span>
+              <span class="stat-val">8 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 80%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Agility (SPD)</span>
+              <span class="stat-val">7 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 70%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Resilience (DEF)</span>
+              <span class="stat-val">3 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 30%;"></div></div>
+          </div>
+        </div>
+
+        <!-- Gaea -->
+        <div class="character-card" data-hero-type="gaea" style="--card-glow-color: var(--neon-green); --card-glow-rgb: 57, 255, 20;">
+          <div class="char-img-container">
+            <span class="char-type-badge">Bio</span>
+            <img src="assets/gaea.jpg" alt="Gaea Avatar" class="char-img">
+          </div>
+          <div class="char-info">
+            <h3 class="char-name">GAEA</h3>
+            <span class="char-title">The Bio-Sentinel</span>
+          </div>
+          <div class="char-stats">
+            <div class="stat-row">
+              <span class="stat-label">Power (ATK)</span>
+              <span class="stat-val">5 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 50%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Agility (SPD)</span>
+              <span class="stat-val">4 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 40%;"></div></div>
+            
+            <div class="stat-row">
+              <span class="stat-label">Resilience (DEF)</span>
+              <span class="stat-val">9 / 10</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="width: 90%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="select-confirm-area">
+        <button class="btn-primary" id="btn-select-confirm" disabled>Awaken Champion</button>
+      </div>
+    </div>
+
+    <!-- ================= SCREEN 3: GAME HUB / LOBBY ================= -->
+    <div id="screen-lobby" class="screen lobby-screen hidden">
+      <!-- Left side: Hero Stats & Customization -->
+      <div class="lobby-hero-card" id="lobby-hero-panel">
+        <div class="hero-profile">
+          <div class="hero-avatar-frame" id="lobby-hero-avatar-frame">
+            <img src="assets/ignis.jpg" alt="Hero Avatar">
+          </div>
+          <div class="hero-meta">
+            <h3 id="lobby-hero-name">IGNIS</h3>
+            <p id="lobby-hero-subclass">THE SOLAR FLAME</p>
+            <div class="hero-level-badge" id="lobby-hero-level">Lvl 1</div>
+          </div>
+        </div>
+        
+        <div class="bar-wrapper">
+          <div class="bar-labels">
+            <span>XP Progress</span>
+            <span id="lobby-hero-xp-text">0 / 100</span>
+          </div>
+          <div class="bar-outer">
+            <div class="bar-inner hp-bar" id="lobby-hero-xp-bar" style="width: 0%; background: linear-gradient(90deg, #ffb300, #ffea00); box-shadow: 0 0 8px rgba(255, 234, 0, 0.4);"></div>
+          </div>
+        </div>
+
+        <div class="lobby-divider"></div>
+
+        <!-- Attribute Points -->
+        <div class="upgrade-section">
+          <div class="upgrade-header">
+            <h4>ATTRIBUTES</h4>
+            <div class="stat-points-badge" id="lobby-stat-points" style="display:none">0 Points</div>
+          </div>
+          <div class="lobby-stats-list">
+            
+            <div class="lobby-stat-item">
+              <div class="lobby-stat-info">
+                <span class="lobby-stat-name">Power (Damage)</span>
+                <span class="lobby-stat-val" id="lobby-val-power">10</span>
+              </div>
+              <button class="btn-stat-plus" data-stat="power">+</button>
+            </div>
+            
+            <div class="lobby-stat-item">
+              <div class="lobby-stat-info">
+                <span class="lobby-stat-name">Agility (Speed & Crit)</span>
+                <span class="lobby-stat-val" id="lobby-val-agility">10</span>
+              </div>
+              <button class="btn-stat-plus" data-stat="agility">+</button>
+            </div>
+            
+            <div class="lobby-stat-item">
+              <div class="lobby-stat-info">
+                <span class="lobby-stat-name">Resilience (Max HP)</span>
+                <span class="lobby-stat-val" id="lobby-val-resilience">10</span>
+              </div>
+              <button class="btn-stat-plus" data-stat="resilience">+</button>
+            </div>
+
+            <div class="lobby-stat-item">
+              <div class="lobby-stat-info">
+                <span class="lobby-stat-name">Focus (Energy Regen)</span>
+                <span class="lobby-stat-val" id="lobby-val-focus">10</span>
+              </div>
+              <button class="btn-stat-plus" data-stat="focus">+</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="lobby-divider"></div>
+
+        <!-- Potions Inventory -->
+        <div class="potion-area">
+          <div class="potion-count">
+            <span class="potion-icon">🧪</span>
+            <span>Health Potions: <strong id="lobby-potions-count">1</strong></span>
+          </div>
+          <button class="btn-use-potion" id="btn-lobby-heal">Heal Hero</button>
+        </div>
+      </div>
+
+      <!-- Right side: Map & Mission Launch -->
+      <div class="lobby-main">
+        <div class="lobby-header">
+          <h2>Nexus Campaign</h2>
+          <div class="turn-indicator" id="lobby-stage-indicator" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1); color: #fff; text-shadow: none">Stage 1 / 5</div>
+        </div>
+
+        <!-- Campaign Nodes (Visual Map) -->
+        <div class="stage-nodes-container">
+          <div class="nodes-path">
+            <div class="nodes-path-progress" id="nodes-progress-line"></div>
+          </div>
+          
+          <div class="stage-node current" data-stage="1">
+            <span class="node-number">I</span>
+            <span class="node-tooltip">Plasma Drone</span>
+          </div>
+          <div class="stage-node locked" data-stage="2">
+            <span class="node-number">II</span>
+            <span class="node-tooltip">Slime Spitter</span>
+          </div>
+          <div class="stage-node locked" data-stage="3">
+            <span class="node-number">III</span>
+            <span class="node-tooltip">Cyber Hunter</span>
+          </div>
+          <div class="stage-node locked" data-stage="4">
+            <span class="node-number">IV</span>
+            <span class="node-tooltip">Chronos Sentinel</span>
+          </div>
+          <div class="stage-node locked boss-node" data-stage="5">
+            <span class="node-number">💀</span>
+            <span class="node-tooltip">MALAKOR (BOSS)</span>
+          </div>
+        </div>
+
+        <!-- Mission Details Preview -->
+        <div class="mission-preview-panel">
+          <div class="enemy-brief">
+            <div class="enemy-brief-avatar" id="lobby-enemy-avatar-frame">
+              <img src="assets/enemy.jpg" alt="Enemy Preview">
+            </div>
+            <div class="enemy-brief-info">
+              <h5 id="lobby-enemy-name">Plasma Drone</h5>
+              <p id="lobby-enemy-desc">A standard military-grade sentry firing high-frequency plasma bursts.</p>
+            </div>
+          </div>
+          <button class="btn-primary" id="btn-launch-combat">Initiate Clash</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SCREEN 4: BATTLE ARENA ================= -->
+    <div id="screen-battle" class="screen battle-screen hidden">
+      
+      <!-- Ultimate Cutscene Overlay -->
+      <div class="ult-cutscene hidden" id="ultimate-cutscene">
+        <h2 class="ult-cutscene-title" id="ult-announcement-name">SUPERNOVA</h2>
+        <span class="ult-cutscene-subtitle" id="ult-announcement-hero">Ignis deploys Ultimate</span>
+      </div>
+
+      <!-- Flash Overlay for visual effects -->
+      <div id="combat-flash" class="flash-effect" style="display:none"></div>
+
+      <!-- Top Combat Area -->
+      <div class="battle-arena" id="battle-arena-view">
+        <canvas class="effects-canvas-overlay" id="effects-canvas"></canvas>
+
+        <!-- Hero Status Card -->
+        <div class="combatant-panel hero-side" id="combat-hero-panel">
+          <div class="combatant-header">
+            <div class="combatant-avatar" id="battle-hero-avatar-frame">
+              <img src="assets/ignis.jpg" alt="Hero Avatar">
+            </div>
+            <div class="combatant-meta">
+              <span class="combatant-name" id="battle-hero-name">IGNIS</span>
+              <span class="combatant-subtext" id="battle-hero-class">LEVEL 1 PYROMANCER</span>
+            </div>
+          </div>
+
+          <div class="combatant-bars">
+            <div class="bar-wrapper">
+              <div class="bar-labels">
+                <span class="bar-label-name text-red">Health</span>
+                <span id="battle-hero-hp-text">100 / 100</span>
+              </div>
+              <div class="bar-outer">
+                <div class="bar-inner hp-bar" id="battle-hero-hp-bar"></div>
+              </div>
+            </div>
+            
+            <div class="bar-wrapper">
+              <div class="bar-labels">
+                <span class="bar-label-name text-cyan">Energy</span>
+                <span id="battle-hero-energy-text">100 / 100</span>
+              </div>
+              <div class="bar-outer">
+                <div class="bar-inner energy-bar" id="battle-hero-energy-bar"></div>
+              </div>
+            </div>
+
+            <div class="bar-wrapper">
+              <div class="bar-labels">
+                <span class="bar-label-name text-purple">Ultimate</span>
+                <span id="battle-hero-ult-text">0%</span>
+              </div>
+              <div class="bar-outer">
+                <div class="bar-inner ult-bar" id="battle-hero-ult-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="status-effects-list" id="battle-hero-statuses">
+            <!-- <span class="status-badge burn">Burn</span> -->
+          </div>
+        </div>
+
+        <!-- Versus & Turn Indicator -->
+        <div class="battle-vs">
+          <div class="vs-logo">VS</div>
+          <div class="turn-indicator" id="battle-turn-indicator">Hero's Turn</div>
+        </div>
+
+        <!-- Enemy Status Card -->
+        <div class="combatant-panel enemy-side" id="combat-enemy-panel">
+          <div class="combatant-header">
+            <div class="combatant-avatar" id="battle-enemy-avatar-frame">
+              <img src="assets/enemy.jpg" alt="Enemy Avatar">
+            </div>
+            <div class="combatant-meta">
+              <span class="combatant-name" id="battle-enemy-name">PLASMA DRONE</span>
+              <span class="combatant-subtext" id="battle-enemy-class">STAGE 1 ADVOCATE</span>
+            </div>
+          </div>
+
+          <div class="combatant-bars">
+            <div class="bar-wrapper">
+              <div class="bar-labels">
+                <span class="bar-label-name text-red">Health</span>
+                <span id="battle-enemy-hp-text">60 / 60</span>
+              </div>
+              <div class="bar-outer">
+                <div class="bar-inner hp-bar" id="battle-enemy-hp-bar"></div>
+              </div>
+            </div>
+            
+            <div class="bar-wrapper">
+              <div class="bar-labels">
+                <span class="bar-label-name text-cyan">Energy</span>
+                <span id="battle-enemy-energy-text">100 / 100</span>
+              </div>
+              <div class="bar-outer">
+                <div class="bar-inner energy-bar" id="battle-enemy-energy-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="status-effects-list" id="battle-enemy-statuses">
+            <!-- <span class="status-badge poison">Poison</span> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Panel & Combat Terminal Logs -->
+      <div class="battle-controls">
+        <!-- Actions Buttons -->
+        <div class="skills-grid" id="battle-actions-grid">
+          
+          <!-- Strike -->
+          <button class="skill-btn" id="btn-skill-0" style="--skill-theme-color: var(--neon-cyan); --skill-theme-rgb: 0, 229, 255;">
+            <div class="skill-header-row">
+              <span class="skill-name">Energy Strike</span>
+              <span class="skill-cost">+15 ENG</span>
+            </div>
+            <span class="skill-desc">Execute a standard attack that regenerates energy.</span>
+          </button>
+
+          <!-- Skill 1 -->
+          <button class="skill-btn" id="btn-skill-1">
+            <div class="skill-header-row">
+              <span class="skill-name">Pyroburst</span>
+              <span class="skill-cost">15 ENG</span>
+            </div>
+            <span class="skill-desc">Deals high elemental damage and burns target.</span>
+          </button>
+
+          <!-- Skill 2 -->
+          <button class="skill-btn" id="btn-skill-2">
+            <div class="skill-header-row">
+              <span class="skill-name">Heat Barrier</span>
+              <span class="skill-cost">20 ENG</span>
+            </div>
+            <span class="skill-desc">Generates a force shield protecting the hero.</span>
+          </button>
+
+          <!-- Ultimate -->
+          <button class="skill-btn ult-btn" id="btn-skill-3" disabled>
+            <div class="skill-header-row">
+              <span class="skill-name">Supernova</span>
+              <span class="skill-cost">100% ULT</span>
+            </div>
+            <span class="skill-desc">Unleash an apocalyptic power with devastating force.</span>
+          </button>
+
+        </div>
+
+        <!-- Terminal Combat Log -->
+        <div class="combat-log-container">
+          <div class="combat-log-header">COMBAT LOGS</div>
+          <div class="combat-log-body" id="combat-log-console">
+            <div class="log-entry log-system">> Battle initialization complete. Select action.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SCREEN 5: OUTCOME ================= -->
+    <div id="screen-outcome" class="screen outcome-screen hidden">
+      <h1 class="outcome-title victory" id="outcome-title-text">Clash Victory</h1>
+      
+      <div class="outcome-details">
+        <div class="reward-row">
+          <span class="reward-label">XP Gained</span>
+          <span class="reward-val" id="outcome-reward-xp">+50 XP</span>
+        </div>
+        <div class="reward-row" id="outcome-reward-points-row">
+          <span class="reward-label">Attribute Points Gained</span>
+          <span class="reward-val" id="outcome-reward-points">+2 Points</span>
+        </div>
+        <div class="reward-row">
+          <span class="reward-label">Potions Found</span>
+          <span class="reward-val" id="outcome-reward-potions">🧪 +1 Potion</span>
+        </div>
+        <div class="reward-row" id="outcome-boss-clear-row" style="display:none">
+          <span class="reward-label text-yellow">Grand Champion Status</span>
+          <span class="reward-val text-yellow">UNLOCKED!</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-outcome-action" style="width: 250px">Proceed</button>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="game.js"></script>
+</body>
+</html>
